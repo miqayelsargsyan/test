@@ -1,34 +1,12 @@
-const path = require('path');
-const express = require('express');
-const http = require('http');
-const socketIO = require('socket.io');
+const config = require('../mongoose/mongoose')
+const {listenServer, app} = require('../socketServer/socketIO')
+const {User} = require('../models/user')
+const {signUp} = require('../functionality/signUp')
+const mongoose = require('mongoose')
 
-const publicPath = path.join(__dirname, '../public');
-const port = process.env.PORT || 3000;
-let app = express();
-let server = http.createServer(app);
-let io = socketIO(server);
-
-app.use(express.static(publicPath));
-
-io.on('connection', (socket) => {
-    console.log('New user connected');
-
-    socket.emit('newEmail', {
-        from: 'Misha',
-        to: 'ifyoucan',
-        text: 'hello'
-    });
-
-    socket.on('createEmail', function (email) {
-        console.log('createEmail', email)
-    })
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    })
+app.post('/api/signUp', (req, res) => {
+    signUp(req, res)
 })
 
-server.listen(port, () => {
-    console.log(`The server is up on port ${port}`)
-})
+
+
