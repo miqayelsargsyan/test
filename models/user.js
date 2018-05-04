@@ -4,10 +4,12 @@ const _ = require ('lodash');
 
 let UserSchema = new mongoose.Schema({
     phoneNumber: {
-        type: Number
+        type: Number,
+        // required: true
     },
     name: {
-        type: String
+        type: String,
+        required: true
     },
     tokens: [{
         access: {
@@ -16,11 +18,9 @@ let UserSchema = new mongoose.Schema({
         },
         token: {
             type: String
-            // required: true
-            
+            // required: true   
         }
     }]
-    
 }); 
 
 UserSchema.methods.toJSON = function() {

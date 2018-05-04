@@ -1,10 +1,11 @@
-
 const {User} = require('../models/user');
 const _ = require('lodash');
 
+let user;
+let body;
 
 let signUp = (req, res) => {
-    let body = _.pick(req.body,['phoneNumber','name']);
+    body = _.pick(req.body,['name','phoneNumber']);
 
     user = new User(body);
 
