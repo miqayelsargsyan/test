@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 let app = express();
 let server = http.createServer(app);
 let io = socketIO(server);
-
+const {User} = require('../models/user');
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 
@@ -32,7 +32,12 @@ io.on('connection', (socket) => {
             from: message.from,
             text: message.text
         })
+    }) 
+
+       socket.on('join', () => {
+        socket.join(user.name)
     })
+
 
     socket.on('disconnect', () => {
         console.log('User disconnected');
@@ -43,4 +48,6 @@ io.on('connection', (socket) => {
 let listenServer = server.listen(port, () => {
     console.log(`The server is up on port ${port}`)
 })
+
+
 module.exports = {listenServer, app}

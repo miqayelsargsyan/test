@@ -4,12 +4,21 @@ const _ = require ('lodash');
 
 let UserSchema = new mongoose.Schema({
     phoneNumber: {
-        type: Number,
+        type: Number
         // required: true
     },
     name: {
         type: String,
         required: true
+    },
+    photo: {
+        type: String
+    },
+    location: {
+        type: String
+    },
+    locationSharing: {
+        type: Boolean
     },
     tokens: [{
         access: {
@@ -26,7 +35,7 @@ let UserSchema = new mongoose.Schema({
 UserSchema.methods.toJSON = function() {
     let user = this;
     let userObject = user.toObject();
-    return _.pick(userObject,['_id', 'phoneNumber']);
+    return _.pick(userObject,['_id', 'phoneNumber','name']);
 };
 
 UserSchema.methods.generateAuthToken = function () {
@@ -39,6 +48,8 @@ UserSchema.methods.generateAuthToken = function () {
        return token;
      });
 };
+
+
 
 UserSchema.methods.removeToken = function (token) {
     let user = this;
